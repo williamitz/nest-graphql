@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import * as colors from 'colors';
 import { ValidationPipe } from '@nestjs/common';
 
+
 async function bootstrap() {
   const app = await NestFactory.create( AppModule );
 
