@@ -1,0 +1,262 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type ListItem {
+  id: ID!
+  quantity: Float!
+  completed: Boolean!
+  list: List!
+  item: Item!
+}
+
+type List {
+  """listId"""
+  id: ID!
+
+  """Name List"""
+  name: String!
+  listItems(
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): ListItemsResponse!
+}
+
+type User {
+  id: ID!
+  fullName: String!
+  email: String!
+  roles: [String!]!
+  isActive: Boolean!
+  lastUpdateBy: User
+  itemCount: Int!
+  itemsForUser(
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): ItemsListResponse!
+  listForUser(
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): ListResponse!
+}
+
+type Item {
+  """Example field (placeholder)"""
+  id: String!
+
+  """Name Item"""
+  name: String!
+
+  """Quantity stock"""
+  quantity: Int!
+
+  """Unit Measure"""
+  quantityUnits: String!
+  user: User!
+  listItems: [ListItem!]!
+}
+
+type ItemsListResponse {
+  """List to items"""
+  items: [Item!]!
+
+  """Total records"""
+  total: Int!
+}
+
+type AuthResponse {
+  data: User!
+  token: String!
+}
+
+type UserListResponse {
+  users: [User!]!
+  total: Int!
+}
+
+type ListResponse {
+  lists: [List!]!
+  total: Int!
+}
+
+type ListItemsResponse {
+  listItems: [ListItem!]!
+  total: Int!
+}
+
+type Query {
+  revalidate: AuthResponse!
+  users(
+    roles: [ValidRoles!] = []
+
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String = ""
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): UserListResponse!
+  user(id: ID!): User!
+  items(
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): ItemsListResponse!
+  item(id: ID!): Item!
+  lists(
+    """Current page number"""
+    page: Int = 0
+
+    """Users for page"""
+    rowsForPage: Int = 100
+
+    """Filter"""
+    filter: String
+
+    """Users for page"""
+    isActive: Boolean = true
+  ): ListResponse!
+  list(id: ID!): List!
+  listItem(id: ID!): ListItem!
+}
+
+"""
+Cillum Lorem dolore nostrud et non occaecat nulla fugiat sunt enim Lorem est incididunt veniam.
+"""
+enum ValidRoles {
+  admin
+  user
+  superUser
+}
+
+type Mutation {
+  singup(singUpInput: SingupInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  blockUser(id: ID!): User!
+  createItemInput(createItemInput: CreateItemInput!): Item!
+  updateItem(id: ID!, updateItemInput: UpdateItemInput!): Item!
+  removeItem(id: String!): String!
+  createList(createListInput: CreateListInput!): List!
+  updateList(updateListInput: UpdateListInput!): List!
+  removeList(id: ID!): List!
+  createListItem(createListItemInput: CreateListItemInput!): ListItem!
+  updateListItem(updateListItemInput: UpdateListItemInput!): ListItem!
+}
+
+input SingupInput {
+  """Names and Surnames"""
+  fullName: String!
+
+  """Username"""
+  email: String!
+
+  """Password user"""
+  passwordUser: String!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  """Names and Surnames"""
+  fullName: String
+
+  """Username"""
+  email: String
+  id: ID!
+
+  """Roles to user"""
+  roles: [ValidRoles!]
+  isActive: Boolean
+}
+
+input CreateItemInput {
+  """Name To Item"""
+  name: String!
+
+  """Quantity To Item"""
+  quantity: Int!
+
+  """Unit measure To Item"""
+  quantityUnits: String!
+}
+
+input UpdateItemInput {
+  """Name To Item"""
+  name: String
+
+  """Quantity To Item"""
+  quantity: Int
+
+  """Unit measure To Item"""
+  quantityUnits: String
+}
+
+input CreateListInput {
+  """Name list"""
+  name: String!
+}
+
+input UpdateListInput {
+  """Name list"""
+  name: String
+  id: ID!
+}
+
+input CreateListItemInput {
+  quantity: Int = 0
+  completed: Boolean = false
+  listId: ID!
+  itemId: ID!
+}
+
+input UpdateListItemInput {
+  quantity: Int = 0
+  completed: Boolean = false
+  listId: ID
+  itemId: ID
+  id: ID!
+}
